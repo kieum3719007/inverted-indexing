@@ -10,11 +10,11 @@
 <head>
 <meta charset="ISO-8859-1">
 <style>
-	table, th, td {
-	 border: 1px solid black;
-	 border-collapse: collapse;
-	 margin-top: 10px;
-	}
+table, th, td {
+	border: 1px solid black;
+	border-collapse: collapse;
+	margin-top: 10px;
+}
 </style>
 <title>Inverse index</title>
 </head>
@@ -41,8 +41,14 @@
 			<label for="search-query">Query</label>
 			<input type="text"
 				placeholder="search text" autocomplete id="search-text"
-				value="${searchText}"
-				name="searchText">
+				value="${searchText}" name="searchText">
+			<br> 
+			<br>
+			<label for="is-prunching">Is prunching</label> 
+			<input type="checkbox"
+				id="is-prunching" name="isPrunching" value="prunch">
+			<br>
+			<br>
 			<input type="submit" value="Search" />
 		</fieldset>
 	</form:form>

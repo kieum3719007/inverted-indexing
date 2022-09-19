@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.example.demo.cluster.ClusterPrunching;
 import com.example.demo.service.DocumentService;
 import com.example.demo.service.IndexService;
 import com.example.demo.service.SearchService;
@@ -18,15 +19,18 @@ import com.example.demo.service.SearchService;
 @Controller
 public final class HomeController {
 
+	private final ClusterPrunching cluster;
 	private final SearchService searchService;
 	private final IndexService service;
 	private final DocumentService documentService;
 
 	public HomeController(
+			ClusterPrunching cluster,
 			IndexService service,
 			DocumentService documentService,
 			SearchService searchService
 			) {
+		this.cluster = cluster;
 		this.searchService = searchService;
 		this.service = service;
 		this.documentService = documentService;
@@ -37,9 +41,13 @@ public final class HomeController {
 		return new ModelAndView("home");
 	}
 
+
 	@PostMapping("/search")
-	public ModelAndView search(String searchText) throws IOException {
-		final List<String> searchResult = searchService.search(searchText);
+	public ModelAndView search(String searchText, String isPrunching) throws IOException {
+		final List<String> searchResult = isPrunching == null
+				? searchService.search(searchText)
+						: searchService.prunchingSearch(searchText);
+
 		final ModelAndView modelAndView = new ModelAndView("home");
 
 		modelAndView
@@ -60,7 +68,9 @@ public final class HomeController {
 				e.printStackTrace();
 			}
 		});
+
 		service.updateDF();
+		cluster.prunch();
 
 		final ModelAndView modelAndView = new ModelAndView("result");
 		modelAndView.addObject("documents", documentService.getAll());

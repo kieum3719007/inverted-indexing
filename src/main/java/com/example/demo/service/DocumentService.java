@@ -30,6 +30,10 @@ public class DocumentService {
 		return repository.findById(id).orElse(null);
 	}
 
+	public List<Document> getLeaders() {
+		return repository.getByIsLeader(true);
+	}
+
 	public Document saveDocument(String content) {
 		final Document doc = new Document();
 		doc.setContent(documentTransform.transform(content));

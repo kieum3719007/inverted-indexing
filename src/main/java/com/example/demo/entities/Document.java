@@ -10,8 +10,12 @@ import lombok.NoArgsConstructor;
 @org.springframework.data.mongodb.core.mapping.Document
 public class Document {
 
-    @Id
-    private String id;
+	@Id
+	private String id;
 
-    private String content;
+	private Boolean isLeader;
+
+	private String leaderId;
+
+	private String content;
 }
